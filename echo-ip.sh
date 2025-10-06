@@ -38,8 +38,12 @@ get_ip() {
     return 1
 }
 
+# 配置变量
+CHECK_INTERVAL=180  # 检查间隔（秒）
+INTERVAL_MINUTES=$((CHECK_INTERVAL / 60))  # 转换为分钟显示
+
 # 主循环
-echo "开始监控本机IP地址变动，每3分钟检查一次..."
+echo "开始监控本机IP地址变动，每${INTERVAL_MINUTES}分钟检查一次..."
 echo "时间: $(date)"
 
 # 初始化变量来存储上一次的IP
@@ -69,5 +73,5 @@ while true; do
     fi
 
     # 单位: 秒
-    sleep 180
+    sleep $CHECK_INTERVAL
 done
