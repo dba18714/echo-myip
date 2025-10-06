@@ -51,7 +51,7 @@ while true; do
     else
         echo "[$current_time] 获取IP失败: $ip"
     fi
-    
-    # 等待10分钟 (600秒)
-    sleep 600
+
+    # 单位: 秒
+    sleep 180
 done
