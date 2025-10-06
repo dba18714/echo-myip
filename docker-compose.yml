@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  echo-myip:
+    build: .
+    container_name: echo-myip-monitor
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+    # 如果需要限制资源使用，可以取消注释以下行
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.1'
+    #       memory: 50M
+    #     reservations:
+    #       memory: 20M
+
+# 如果需要使用外部网络，可以取消注释
+# networks:
+#   default:
+#     external: true
+#     name: bridge
