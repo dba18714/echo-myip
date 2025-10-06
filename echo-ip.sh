@@ -39,17 +39,33 @@ get_ip() {
 }
 
 # 主循环
-echo "开始监控本机IP地址，每10分钟检查一次..."
+echo "开始监控本机IP地址变动，每3分钟检查一次..."
 echo "时间: $(date)"
+
+# 初始化变量来存储上一次的IP
+previous_ip=""
+first_check=true
 
 while true; do
     current_time=$(date '+%Y-%m-%d %H:%M:%S')
-    ip=$(get_ip)
+    current_ip=$(get_ip)
     
     if [ $? -eq 0 ]; then
-        echo "[$current_time] 本机公网IP: $ip"
+        # 检查IP是否有变动
+        if [ "$first_check" = true ]; then
+            echo "[$current_time] 🟢 初始IP地址: $current_ip"
+            previous_ip="$current_ip"
+            first_check=false
+        elif [ "$current_ip" != "$previous_ip" ]; then
+            echo "[$current_time] 🔄 IP地址发生变化!"
+            echo "           旧IP: $previous_ip"
+            echo "           新IP: $current_ip"
+            previous_ip="$current_ip"
+        else
+            echo "[$current_time] ✅ IP地址无变化: $current_ip"
+        fi
     else
-        echo "[$current_time] 获取IP失败: $ip"
+        echo "[$current_time] ❌ 获取IP失败: $current_ip"
     fi
 
     # 单位: 秒
